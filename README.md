@@ -34,6 +34,26 @@
 4. The client encrypts the terminal output, posts it as a comment on the same issue, and changes the issue state to `closed`.
 5. The server detects the closed issue, retrieves the comment, decrypts the output, and displays it to the user.
 
+## Screenshots
+
+<details open>
+  <summary><strong>Screenshot of Tasks</strong></summary>
+  
+  ![](https://raw.githubusercontent.com/N3agu/GitC2/refs/heads/main/Images/tasks.png)
+</details>
+
+<details>
+  <summary><strong>Screenshot of a Normal Task</strong></summary>
+  
+  ![](https://raw.githubusercontent.com/N3agu/GitC2/refs/heads/main/Images/task_normal.png)
+</details>
+
+<details>
+  <summary><strong>Screenshot of an Encrypted Task</strong></summary>
+  
+  ![](https://raw.githubusercontent.com/N3agu/GitC2/refs/heads/main/Images/task_encrypted.png)
+</details>
+
 ## Setup & Configuration
 
 ### 1. Prerequisites
