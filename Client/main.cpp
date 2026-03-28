@@ -24,7 +24,7 @@ string exec(const string& cmd) {
 int main() {
     string base_url = "https://api.github.com/repos/" + REPO_OWNER + "/" + REPO_NAME + "/issues";
 
-    cout << "[!] GitC2: github.com/" << REPO_OWNER << "/" << REPO_NAME << "\n";
+    cout << "[!] GitC2: github.com/N3agu/GitC2\n";
     cout << "[*] Target URL: " << base_url << "\n";
     cout << "[*] Encrypted Communication: " << (ENCRYPT_COMMUNICATION ? "ENABLED" : "DISABLED") << "\n\n";
 
