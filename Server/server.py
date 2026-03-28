@@ -30,7 +30,7 @@ def load_or_create_config():
         print("    4. Click on \"Generate Token\"\n")
         
         token = input("[+] GitHub Token: ")
-        owner = input("[+] GitHub Username: ")
+        owner = input("[+] Repository Owner: ")
         repo = input("[+] Repository Name: ")
         config = {"token": token, "owner": owner, "repo": repo}
         with open(CONFIG_FILE, "w") as f:
