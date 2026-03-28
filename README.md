@@ -2,7 +2,7 @@
   <h1>GitC2</h1>
   <img src="https://raw.githubusercontent.com/N3agu/GitC2/refs/heads/main/Images/github.png" width="256">
   
-  <p><b>An educational Proof of Concept demonstrating how to use the GitHub API as an application-layer proxy for remote command execution.</b></p>
+  <p><b>An educational Proof of Concept demonstrating how to use the GitHub API as a C2 Server.</b></p>
 </div>
 
 ## Overview
