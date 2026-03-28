@@ -33,7 +33,7 @@ def decode_payload(b64_text, key):
         return "[!] Failed to decode payload. Data might be corrupted or unencrypted."
 
 def load_or_create_config():
-    required_keys = ["token", "owner", "repo", "encrypt"]
+    required_keys = ["token", "owner", "repo", "encrypt_communication"]
     
     if os.path.exists(CONFIG_FILE):
         try:
@@ -59,7 +59,7 @@ def load_or_create_config():
     enc_input = input("[+] Encrypt Communication (y/n): ").strip().lower()
     encrypt = True if enc_input == 'y' else False
     
-    config = {"token": token, "owner": owner, "repo": repo, "encrypt": encrypt}
+    config = {"token": token, "owner": owner, "repo": repo, "encrypt_communication": encrypt}
     with open(CONFIG_FILE, "w") as f:
         json.dump(config, f, indent=4)
     print("[!] Settings saved to settings.json\n")
@@ -75,7 +75,7 @@ def main():
     }
     base_url = f"https://api.github.com/repos/{config['owner']}/{config['repo']}/issues"
     
-    encrypt_enabled = config.get("encrypt", False)
+    encrypt_enabled = config.get("encrypt_communication", False)
     token_key = config['token']
 
     print(f"[*] Encryption: {'ENABLED' if encrypt_enabled else 'DISABLED'}\n")
